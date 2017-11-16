@@ -1,0 +1,113 @@
+package ${package};
+
+import com.platform.annotation.Controller;
+import com.platform.constant.ConstantInit;
+import com.platform.mvc.base.BaseController;
+import com.platform.mvc.base.BaseModel;
+import com.index.mvc.IndexService;
+
+import org.apache.log4j.Logger;
+
+import com.jfinal.aop.Before;
+
+/**
+ * ${colunmList[0].table_desc} 控制类
+ *
+ * 列表：/bs/${basePath}/${classNameSmall}/list
+ * 新增：/bs/${basePath}/${classNameSmall}/add
+ * 保存：/bs/${basePath}/${classNameSmall}/save
+ * 编辑：/bs/${basePath}/${classNameSmall}/edit
+ * 修改：/bs/${basePath}/${classNameSmall}/update
+ * 查看：/bs/${basePath}/${classNameSmall}/view
+ * 删除：/bs/${basePath}/${classNameSmall}/delete
+ *
+ */
+@Controller(controllerKey = "/bs/${basePath}/${classNameSmall}")
+public class ${className}Controller extends BaseController {
+
+	@SuppressWarnings("unused")
+	private static Logger log = Logger.getLogger(${className}Controller.class);
+
+	/**
+     * 菜单ID
+	 */
+	private static String tid="";
+
+	/**
+	 * 列表
+	 */
+	public void list() {
+		log.info("打开列表页");
+		if(tid.equals("")){
+			this.tid = getPara("tid");
+		}
+		setAttr("nav", IndexService.service.wrapNavHtml(tid));
+		paging(ConstantInit.db_dataSource_main, splitPage, BaseModel.sqlId_splitPage_select, ${className}.sqlId_splitPage_from);
+		render("/bs/${basePath}/${classNameSmall}/list.html");
+	}
+
+	/**
+ 	 * 准备新增
+	 */
+	public void add(){
+		log.info("打开新增页。");
+		setAttr("nav", IndexService.service.wrapNavHtml(tid));
+		render("/bs/${basePath}/${classNameSmall}/add.html");
+	}
+
+	/**
+	 * 保存
+	 */
+	@Before(${className}Validator.class)
+	public void save() {
+		log.info("保存数据。");
+		getModel(${className}.class).save();
+		redirect("/bs/${basePath}/${classNameSmall}/list");
+	}
+
+	/**
+	 * 准备更新
+	 */
+	public void edit() {
+		log.info("打开编辑页。");
+		${className} ${classNameSmall} = ${className}.dao.findById(getPara());
+		setAttr("${classNameSmall}", ${classNameSmall});
+		setAttr("tid", tid);
+		setAttr("nav", IndexService.service.wrapNavHtml(tid));
+		render("/bs/${basePath}/${classNameSmall}/edit.html");
+	}
+
+	/**
+	 * 更新
+	 */
+	@Before(${className}Validator.class)
+	public void update() {
+		log.info("修改数据。");
+		getModel(${className}.class).update();
+		redirect("/bs/${basePath}/${classNameSmall}/list");
+	}
+
+	/**
+	 * 查看
+	 */
+	public void view() {
+		log.info("打开详情查看页。");
+		${className} ${classNameSmall} = ${className}.dao.findById(getPara());
+		setAttr("${classNameSmall}", ${classNameSmall});
+		setAttr("nav", IndexService.service.wrapNavHtml(tid));
+		render("/bs/${basePath}/${classNameSmall}/view.html");
+	}
+
+	/**
+	 * 删除
+	 */
+	public void delete() {
+		log.info("删除数据。");
+		String ids = getPara("batIds");
+		if (ids != null && !ids.equals("")) {
+			${className}Service.service.delete(ids);
+		}
+		redirect("/bs/${basePath}/${classNameSmall}/list");
+	}
+
+}

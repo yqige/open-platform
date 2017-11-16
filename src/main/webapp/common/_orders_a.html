@@ -1,0 +1,14 @@
+#define toa(list,y)
+    #for(x : list)
+    <a id="os_#(x.id)" class="weui-cell weui-cell_access" href="/wx-brand/favorites/getOrderInfo?id=#(x.id)" style="padding-top: 15px;padding-bottom: 15px;">
+        <div class="weui-cell__bd">
+            <p><small><span class="glyphicon glyphicon-map-marker text-info" aria-hidden="true"></span></small> #(x.name)</p>
+            <p style="color:#777;"><small><span class="glyphicon glyphicon-time text-info" aria-hidden="true"></span> #(x.create_time)</small></p>
+        </div>
+        <div class="weui-cell__ft" style="color:#333;">&yen;#(x.actual_amt)</div>
+    </a>
+    #if(for.last)
+    #set(y=x.id)
+    #end
+    #end
+#end

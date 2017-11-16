@@ -1,0 +1,61 @@
+package ${package};
+
+import com.platform.mvc.base.BaseModel;
+import com.platform.annotation.Table;
+<% for(dataType in dataTypes){ %>
+import ${dataType}; 
+<% } %>
+
+import org.apache.log4j.Logger;
+
+/**
+ * ${colunmList[0].table_desc}
+ * 模型类，通过数据库表初始化
+ */
+@SuppressWarnings("unused")
+@Table(${isEmpty(dataSource) ? "" : "dataSourceName = " + dataSource + ", "}tableName = "${tableName}"${isEmpty(pkName) ? "" : ", pkName = \"" + pkName + "\""})
+public class ${className} extends BaseModel<${className}> {
+
+	private static final long serialVersionUID = 1L;
+
+	private static Logger log = Logger.getLogger(${className}.class);
+	
+	public static final ${className} dao = new ${className}();
+	
+	<% for(colunm in colunmList){ %>
+	/**
+	 * ${colunm.column_desc}
+	 * 类型：${colunm.column_type}  ${isEmpty(colunm.column_length) ? "" : "长度：" + colunm.column_length}
+	 */
+	public static final String column_${colunm.column_name} = "${colunm.column_name}";
+	
+	<% } %>
+	/**
+	 * sqlId : ${namespace}.splitPageFrom
+	 * 描述：分页from
+	 */
+	public static final String sqlId_splitPage_from = "${namespace}.splitPageFrom";
+
+    public static final String sqlId_splitPage_select1 = "${namespace}.splitPageSelect1";
+
+	<% for(colunm in colunmList){ %>
+	private ${colunm.column_className} ${colunm.column_name};
+	<% } %>
+
+	<% for(colunm in colunmList){ %>
+	/**
+	 * @see ${className}#column_${colunm.column_name}
+	 */
+	public void set${colunm.column_name_upperCaseFirstOne}(${colunm.column_className} ${colunm.column_name}){
+		set(column_${colunm.column_name}, ${colunm.column_name});
+	}
+	/**
+	 * @see ${className}#column_${colunm.column_name}
+	 */
+	public ${colunm.column_className} get${colunm.column_name_upperCaseFirstOne}() {
+		return get(column_${colunm.column_name});
+	}
+
+	<% } %>
+	
+}

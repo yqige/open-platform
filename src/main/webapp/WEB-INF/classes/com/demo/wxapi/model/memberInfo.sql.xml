@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 会员信息 -->
+<sql-statement namespace="wxapi.memberInfo">
+	
+	<!-- 动态SQL处理 -->
+	<sql id="splitPageSelect1">
+		<![CDATA[ 
+        	select *
+    	]]>
+	</sql>
+	
+	<!-- 动态SQL处理 -->
+	<sql id="splitPageFrom">
+		<![CDATA[ 
+        	from crm_member_info o
+        	where 1=1
+			<% if(!isEmpty(id)){ %>
+				and o.id like #'%$id$%'#
+			<% } %><!--主键 -->
+
+			<% if(!isEmpty(memmernum)){ %>
+				and o.memmernum like #'%$memmernum$%'#
+			<% } %><!--会员卡号 -->
+
+			<% if(!isEmpty(memmername)){ %>
+				and o.memmername like #'%$memmername$%'#
+			<% } %><!--会员姓名 -->
+
+			<% if(!isEmpty(sex)){ %>
+				and o.sex like #'%$sex$%'#
+			<% } %><!--性别 -->
+
+			<% if(!isEmpty(phone)){ %>
+				and o.phone like #'%$phone$%'#
+			<% } %><!--手机号 -->
+
+			<% if(!isEmpty(memmbertype)){ %>
+				and o.memmbertype like #'%$memmbertype$%'#
+			<% } %><!--会员卡类型 -->
+
+			<% if(!isEmpty(status)){ %>
+				and o.status like #'%$status$%'#
+			<% } %><!--会员卡状态 -->
+
+			<% if(!isEmpty(members_point)){ %>
+				and o.members_point like #'%$members_point$%'#
+			<% } %><!--会员积分 -->
+
+			<% if(!isEmpty(money)){ %>
+				and o.money like #'%$money$%'#
+			<% } %><!--储值余额 -->
+
+			<% if(!isEmpty(remark)){ %>
+				and o.remark like #'%$remark$%'#
+			<% } %><!--备注 -->
+
+			<% if(!isEmpty(referee)){ %>
+				and o.referee like #'%$referee$%'#
+			<% } %><!--推荐人 -->
+
+			<% if(!isEmpty(wxnum)){ %>
+				and o.wxnum like #'%$wxnum$%'#
+			<% } %><!--微信号 -->
+
+			<% if(!isEmpty(openid)){ %>
+				and o.openid like #'%$openid$%'#
+			<% } %><!--微信openid -->
+
+			<% if(!isEmpty(qq)){ %>
+				and o.qq like #'%$qq$%'#
+			<% } %><!--QQ -->
+
+			<% if(!isEmpty(adress)){ %>
+				and o.adress like #'%$adress$%'#
+			<% } %><!--联系地址 -->
+
+			<% if(!isEmpty(idcard)){ %>
+				and o.idcard like #'%$idcard$%'#
+			<% } %><!--身份证 -->
+
+			<% if(!isEmpty(birthday)){ %>
+				and o.birthday like #'%$birthday$%'#
+			<% } %><!--生日 -->
+
+			<% if(!isEmpty(email)){ %>
+				and o.email like #'%$email$%'#
+			<% } %><!--邮箱 -->
+
+			<% if(!isEmpty(career)){ %>
+				and o.career like #'%$career$%'#
+			<% } %><!--职业 -->
+
+			<% if(!isEmpty(receiveid)){ %>
+				and o.receiveid like #'%$receiveid$%'#
+			<% } %><!--拓展人 -->
+
+			<% if(!isEmpty(tenant_id)){ %>
+				and o.tenant_id like #'%$tenant_id$%'#
+			<% } %><!--开卡门店 -->
+
+			<% if(!isEmpty(create_date)){ %>
+				and o.create_date like #'%$create_date$%'#
+			<% } %><!--创建时间 -->
+
+			<% if(!isEmpty(create_by)){ %>
+				and o.create_by like #'%$create_by$%'#
+			<% } %><!--创建人 -->
+
+			<% if(!isEmpty(update_date)){ %>
+				and o.update_date like #'%$update_date$%'#
+			<% } %><!--更新时间 -->
+
+			<% if(!isEmpty(update_by)){ %>
+				and o.update_by like #'%$update_by$%'#
+			<% } %><!--更新人 -->
+
+			<% if(!isEmpty(from_date)){ %>
+				and o.from_date like #'%$from_date$%'#
+			<% } %><!--起始日期 -->
+
+			<% if(!isEmpty(end_date)){ %>
+				and o.end_date like #'%$end_date$%'#
+			<% } %><!--终止日期 -->
+
+			<% if(!isEmpty(mempic)){ %>
+				and o.mempic like #'%$mempic$%'#
+			<% } %><!--会员图像 -->
+
+
+    	]]>
+	</sql>
+	
+</sql-statement>

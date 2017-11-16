@@ -1,0 +1,35 @@
+package ${package};
+
+import java.io.Serializable;
+
+<% for(dataType in dataTypes){ %>
+import ${dataType};
+<% } %>
+
+import org.apache.log4j.Logger;
+
+/**
+* ${colunmList[0].table_desc} DTO
+*
+*/
+public class ${className}Dto implements Serializable {
+
+//TODO 可通过IDE工具生成该序列化版本号
+private static final long serialVersionUID = 1L;
+
+private static Logger log = Logger.getLogger(${className}.class);
+
+<% for(colunm in colunmList){ %>
+private ${colunm.column_className} ${colunm.column_name};
+<% } %>
+
+<% for(colunm in colunmList){ %>
+public void set${colunm.column_name_upperCaseFirstOne}(${colunm.column_className} ${colunm.column_name}){
+this.${colunm.column_name} = ${colunm.column_name};
+}
+public ${colunm.column_className} get${colunm.column_name_upperCaseFirstOne}() {
+return ${colunm.column_name};
+}
+<% } %>
+
+}

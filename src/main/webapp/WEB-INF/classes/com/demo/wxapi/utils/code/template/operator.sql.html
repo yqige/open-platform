@@ -1,0 +1,34 @@
+-- 表【${table_desc}】相关功能SQL语句
+-- 导入数据库前替换以下参数：
+-- {moduleName}：模块名称
+-- {moduleIds}：模块ids
+
+-- 列表 list
+insert into pt_operator(ids,privilegess, rowfilter, url,version, modulenames, formtoken, names, moduleids, splitpage)
+values('${list.ids}', '1', '0', '${list.url}', 0, '{moduleName}', 0, '${list.name}', '{moduleIds}', '1');
+
+-- 新增 add
+insert into pt_operator(ids,privilegess, rowfilter, url,version, modulenames, formtoken, names, moduleids, splitpage)
+values('${add.ids}', '1', '0', '${add.url}', 0, '{moduleName}', 0, '${add.name}', '{moduleIds}', '0');
+
+-- 保存
+insert into pt_operator(ids,privilegess, rowfilter, url,version, modulenames, formtoken, names, moduleids, splitpage)
+values('${save.ids}', '1', '0', '${save.url}', 0, '{moduleName}', 0, '${save.name}', '{moduleIds}', '0');
+
+-- 编辑 edit
+insert into pt_operator(ids,privilegess, rowfilter, url,version, modulenames, formtoken, names, moduleids, splitpage)
+values('${edit.ids}', '1', '0', '${edit.url}', 0, '{moduleName}', 0, '${edit.name}', '{moduleIds}', '0');
+
+-- 修改 update
+insert into pt_operator(ids,privilegess, rowfilter, url,version, modulenames, formtoken, names, moduleids, splitpage)
+values('${update.ids}', '1', '0', '${update.url}', 0, '{moduleName}', 0, '${update.name}', '{moduleIds}', '0');
+
+-- 查看 view
+insert into pt_operator(ids,privilegess, rowfilter, url,version, modulenames, formtoken, names, moduleids, splitpage)
+values('${view.ids}', '1', '0', '${view.url}', 0, '{moduleName}', 0, '${view.name}', '{moduleIds}', '0');
+
+-- 删除 delete
+insert into pt_operator(ids,privilegess, rowfilter, url,version, modulenames, formtoken, names, moduleids, splitpage)
+values('${delete.ids}', '1', '0', '${delete.url}', 0, '{moduleName}', 0, '${delete.name}', '{moduleIds}', '0');
+
+

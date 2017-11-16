@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ${table_desc} -->
+<sql-statement namespace="${namespace}">
+
+    <!-- 动态SQL处理 -->
+    <sql id="splitPageSelect1">
+        <![CDATA[
+        select *
+        ]]>
+    </sql>
+
+    <!-- 动态SQL处理 -->
+    <sql id="splitPageFrom">
+        <![CDATA[
+        from ${tableName} o
+        where 1=1
+        ${whereParam}
+        ]]>
+    </sql>
+
+</sql-statement>

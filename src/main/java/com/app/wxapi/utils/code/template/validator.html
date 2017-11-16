@@ -1,0 +1,41 @@
+package ${package};
+
+import org.apache.log4j.Logger;
+
+import com.jfinal.core.Controller;
+import com.jfinal.validate.Validator;
+
+/**
+* ${colunmList[0].table_desc}
+* 增、删、改字段验证
+*/
+public class ${className}Validator extends Validator {
+
+@SuppressWarnings("unused")
+private static Logger log = Logger.getLogger(${className}Validator.class);
+
+protected void validate(Controller controller) {
+String actionKey = getActionKey();
+if (actionKey.equals("/bs/${basePath}/${classNameSmall}/save")){
+log.info("新增表单后台数据验证。");
+// validateString("username", 6, 30, "usernameMsg", "请输入登录账号!");
+} else if (actionKey.equals("/bs/${basePath}/${classNameSmall}/update")){
+log.info("编辑表单后台数据验证。");
+
+}
+}
+
+protected void handleError(Controller controller) {
+controller.keepModel(${className}.class);
+String actionKey = getActionKey();
+if (actionKey.equals("/bs/${basePath}/${classNameSmall}/save")){
+log.error("操作：/bs/${basePath}/${classNameSmall}/save，新增表单参数验证非法！");
+controller.render("/common/msg-bs.html");
+} else if (actionKey.equals("/bs/${basePath}/${classNameSmall}/update")){
+log.error("操作：/bs/${basePath}/${classNameSmall}/update，修改表单参数验证非法！");
+controller.render("/common/msg-bs.html");
+
+}
+}
+
+}

@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>${colunmList[0].table_desc}列表</title>
+    <link href="\${ctx!}/ui/fzb/css/style.css" rel="stylesheet" type="text/css"/>
+    <link href="\${ctx!}/jsFile/select-ui/select.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="\${ctx!}/ui/fzb/js/jquery.js"></script>
+    <script type="text/javascript" src="\${ctx!}/jsFile/jquery-idTabs/jquery.idTabs.min.js"></script>
+    <script type="text/javascript" src="\${ctx!}/jsFile/select-ui/select-ui.min.js"></script>
+    <script type="text/javascript" src="\${ctx!}/jsFile/editor/kindeditor.js"></script>
+    <script type="text/javascript" src="\${ctx!}/jsFile/common/list.js"></script>
+    <script type="text/javascript" src="\${ctx!}/jsFile/common/splitPage.js"></script>
+    <script type="text/javascript" src="\${ctx!}/jsFile/common/common.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function (e) {
+            $(".select").uedSelect({
+                width: 258
+            });
+            //新增
+            $("#add").click(function () {
+                window.location.href = "\${ctx!}/bs/${basePath}/${classNameSmall}/add";
+            });
+            //批量删除
+            $("#batchDelete").click(function () {
+                var ids = common_common.getCheckFunc("dataTable");
+                if (ids != '') {
+                    $("#batIds").val(ids);
+                    confirmDel(ids);
+                } else {
+                    alert("请选择要删除的数据！");
+                }
+            });
+            //查看
+            $("#view").click(function () {
+                window.location.href = "\${ctx!}/bs/${basePath}/${classNameSmall}/view/" + ids;
+            });
+            //确认删除
+            $("#delBtn").click(function () {
+                $("#batchDeleteForm").submit();
+            });
+            //打开高级查询
+            $("#advQueryBtn").click(function () {
+                $("#advanceQueryDiv").height(300);//设置弹出层的高度
+                $("#advanceQueryDiv").width(400);//设置弹出层的宽度
+                showDiv("#advanceQueryDiv");
+            });
+            //高级查询
+            $("#advQuerySubBtn").click(function () {
+                $("#splitPage").submit();
+            });
+        });
+
+        //删除确认
+        function confirmDel(ids) {
+            $("#batIds").val(ids);
+            showDiv("#confirmTipDiv");
+        }
+
+
+    </script>
+</head>
+
+<body>
+
+<div class="place">
+    <span>位置：</span>
+    <ul class="placeul">
+        <li><a href="/bs/index/main">首页</a></li>
+        \${nav}
+    </ul>
+</div>
+<form id="splitPage" action="\${ctx!}/bs/${basePath}/${classNameSmall}/list" method="post">
+    <div class="rightinfo">
+        <div class="tools">
+            <ul class="toolbar">
+                ${authUrlAdd}
+                <li class="click" id="add"><span><img src="\${ctx!}/ui/fzb/images/t01.png"/></span>添加</li>
+                ${end}
+                ${authUrlDelete}
+                <li class="click" id="batchDelete"><span>
+                     <img src="\${ctx!}/ui/fzb/images/t03.png" width="24" height="24"/></span>批量删除
+                </li>
+                ${end}
+            </ul>
+            <ul class="seachform">
+                <li><label>主键</label><input name="" type="text" class="scinput"/></li>
+                <li><label>&nbsp;</label><input id="query" type="button" class="scbtn" value="查询"/></li>
+                <li><label>&nbsp;</label><input id="advQueryBtn" type="button" class="scbtn" value="高级查询"/></li>
+            </ul>
+        </div>
+        <table class="tablelist" id="dataTable">
+            <thead>
+            <tr>
+                <th><input id="checkAll" name="checkAll" type="checkbox"
+                           onchange="common_common.checkFunc('dataTable',this);" value=""/></th>
+                <th>序号
+                    <!--<i class="sort"><img src="\${ctx!}/ui/fzb/images/px.gif"/></i>-->
+                </th>
+                <% for(colunm in colunmList){ %>
+                <th>${colunm.column_desc}</th>
+                <%}%>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            ${pageStart}
+            <tr>
+                <td><input name="checkIds" value="\${o.ids!}" type="checkbox"/></td>
+                <td>\${oLP.index+(splitPage.pageNumber-1)*splitPage.pageSize}</td>
+                <% for (colunm in colunmList){%>
+                <td>\${o.${colunm.column_name}}</td>
+                <%}%>
+                <td>
+                    ${authUrlEdit}
+                    <a href="\${ctx!}/bs/${basePath}/${classNameSmall}/edit/\${o.ids }" class="tablelink"
+                       title="编辑">编辑</a>&nbsp;&nbsp;
+                    ${end}
+                    <a href="\${ctx!}/bs/${basePath}/${classNameSmall}/view/\${o.ids }" class="tablelink"
+                       title="查看">查看</a>&nbsp;&nbsp;
+                    ${authUrlDelete}
+                    <a href="javascript:confirmDel('\${o.ids}');" class="tablelink" title="删除">删除</a>
+                    ${end}
+                </td>
+            </tr>
+            ${end}
+            ${end}
+            </tbody>
+        </table>
+        <div class="pagin" id="splitPageDiv">
+            ${pageInclude}
+        </div>
+    </div>
+
+    <!-- 高级查询表单 -->
+    <!-- 按实际情况配置查询参数 -->
+    <div class="tip1" id="advanceQueryDiv">
+        <div class="tiptop1"><span>高级查询</span><a href="javascript:closeDiv('advanceQueryDiv');"></a></div>
+        <div class="tipinfo1">
+            <ul class="forminfo1">
+                <% for(colunm in colunmList){ %>
+                <li><label>${colunm.column_desc}:</label>
+                    <input type="text" id="_query.${colunm.column_name}" name="_query.${colunm.column_name}"
+                           value="\${escapeXml(paramMap['_query.${colunm.column_name}'])}" class="dfinput1"/>
+                </li>
+                <%}%>
+            </ul>
+        </div>
+        <div class="tipbtn1">
+            <input id="advQuerySubBtn" type="button" class="sure" value="确定"/>&nbsp;
+            <input id="advQueryColse" onclick="closeDiv('advanceQueryDiv');" type="button" class="cancel" value="取消"/>
+        </div>
+    </div>
+</form>
+
+<!-- 删除确认表单 -->
+<div class="tip" id="confirmTipDiv">
+    <form id="batchDeleteForm" method="post" action="\${ctx!}/bs/${basePath}/${classNameSmall}/delete">
+        <div class="tiptop"><span>警告信息</span><a href="javascript:closeDiv('confirmTipDiv');"></a></div>
+        <div class="tipinfo">
+            <span><img src="\${ctx!}/ui/fzb/images/warning2.png" width="95" height="95"/></span>
+            <div class="tipright">
+                <p>确定要删除数据！</p>
+                <cite>如果是请点击确定按钮 ，否则请点取消。</cite>
+            </div>
+            <input id="batIds" type="hidden" name="batIds" value=""/>
+        </div>
+        <div class="tipbtn">
+            <input id="delBtn" type="button" class="sure" value="确定"/>&nbsp;
+            <input id="confirmClose" onclick="closeDiv('confirmTipDiv');" type="button" class="cancel" value="取消"/>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+    $('.tablelist tbody tr:odd').addClass('odd');
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,8 @@
+mysql.jdbcUrl=jdbc:mysql://192.168.199.157:3306/wallet_0714?useUnicode=true&amp;characterEncoding=UTF-8
+mysql.user=root
+mysql.password=cc826893f05d4bd99f67e4fda82ec537
+mysql.driverClass=com.mysql.jdbc.Driver
+db.type=mysql
+db.initialSize=5
+db.minIdle=23
+db.maxActive=100

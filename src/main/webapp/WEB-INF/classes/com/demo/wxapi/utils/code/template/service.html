@@ -1,0 +1,37 @@
+package ${package};
+
+import org.apache.log4j.Logger;
+
+import com.jfinal.aop.Enhancer;
+
+import com.platform.mvc.base.BaseService;
+
+/**
+ * ${colunmList[0].table_desc}
+ */
+public class ${className}Service extends BaseService {
+
+	@SuppressWarnings("unused")
+	private static Logger log = Logger.getLogger(${className}Service.class);
+	
+	/**
+	 * 缓存
+	 */
+	public static final ${className}Service service = Enhancer.enhance(${className}Service.class);
+
+	/**
+	* 删除或批量删除
+	* @param ids
+	*/
+	public void delete(String ids){
+		String[] idsArr = splitByComma(ids);
+		for (String id : idsArr) {
+			// 缓存
+			//${className}.dao.cacheRemove(id);
+
+			// 删除
+			${className}.dao.deleteById(id);
+		}
+	}
+	
+}

@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>${colunmList[0].table_desc}</title>
+    <link href="\${ctx!}/ui/fzb/css/style.css" rel="stylesheet" type="text/css"/>
+    <link href="\${ctx!}/ui/fzb/css/select.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="\${ctx!}/jsFile/jquery/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="\${ctx!}/jsFile/jquery-validate/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="\${ctx!}/jsFile/jquery-validate/localization/messages_zh.js"></script>
+    <script type="text/javascript" src="\${ctx!}/jsFile/jquery-idTabs/jquery.idTabs.min.js"></script>
+    <script type="text/javascript" src="\${ctx!}/jsFile/select-ui/select-ui.min.js"></script>
+    <script type="text/javascript" src="\${ctx!}/jsFile/editor/kindeditor.js"></script>
+    <script type="text/javascript" src="\${ctx!}/jsFile/common/form.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function (e) {
+            $(".select1").uedSelect({
+                width: 258
+            });
+            $(".select2").uedSelect({
+                width: 258
+            });
+            $(".select3").uedSelect({
+                width: 258
+            });
+        });
+    </script>
+
+</head>
+
+<body>
+
+<div class="place">
+    <span>位置：</span>
+    <ul class="placeul">
+        <li><a href="/bs/index/main">首页</a></li>
+        \${nav}
+    </ul>
+</div>
+
+<div class="formbody">
+
+    <div class="formtitle"><span>${colunmList[0].table_desc}新增</span></div>
+    <form id="addForm" method="post" action="\${ctx!}/bs/${basePath}/${classNameSmall}/save">
+        <ul class="forminfo">
+            <% for(colunm in colunmList){ %>
+            <li><label>${colunm.column_desc}：<b>*</b></label>
+                <input id="${colunm.column_name}" name="${classNameSmall}.${colunm.column_name}" type="text" class="dfinput" value="" style="width:258px;"/>
+            </li>
+            <% } %>
+            <li>
+                <input id="submitBtn" name="submitBtn" type="submit" class="sure" value="保  存"/>&nbsp;&nbsp;&nbsp;
+                <input id="cancelBtn" name="cancelBtn" type="button" class="cancel" value="取  消"/>
+            </li>
+        </ul>
+    </form>
+</div>
+
+</body>
+
+</html>
