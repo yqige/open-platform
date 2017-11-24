@@ -1,6 +1,6 @@
 package com.weixin.controller;
 
-import com.demo.wxapi.utils.StringUtils;
+import com.app.wxapi.utils.StringUtils;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.jfinal.kit.*;

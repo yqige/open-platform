@@ -1,4 +1,4 @@
-package com.demo.wxapi.utils;
+package com.app.wxapi.utils;
 
 import com.jfinal.core.Controller;
 import com.jfinal.kit.HashKit;

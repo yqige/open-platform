@@ -1,4 +1,4 @@
-package com.demo.wxapi.model.memberinfo;
+package com.app.wxapi.model.memberinfo;
 
 import com.jfinal.plugin.activerecord.Record;
 import org.apache.log4j.Logger;

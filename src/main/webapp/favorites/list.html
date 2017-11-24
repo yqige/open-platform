@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+		<title>我的收藏</title>
+        #include("/include/static.html")
+	</head>
+
+	<body>
+#if(list.size()>0)
+	<div class="page js_show">
+		<div  id="fav_wf1" style="width: 50%;padding:8px 4px 8px 8px;float: left;">
+
+			</div>
+			<div id="fav_wf2" style="width: 50%;padding:8px 8px 8px 4px;float: left;">
+
+			</div>
+		</div>
+			<div class="abhb-ca-cb" style="position: fixed;bottom: 100px;right: 20px;"><span class="glyphicon glyphicon-heart" aria-hidden="true" id="scanQRCode"></span></div>
+			<a href="#" onclick="createqrcode();" class="abhb-ca-cb" style="position: fixed;bottom: 30px;right: 20px;"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></a>
+#else
+<div class="page js_show" style="background-color: #eee;">
+	<div style="color: #666;text-shadow: 1px 1px 1px #fff;padding-top: 30%;padding-left: 30px;padding-right: 30px;">
+		<p class="text-center lead"><strong>收藏三部曲</strong></p>
+		<p>1、点击右下角<span class="abhb-ca-cs"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></span>，扫一扫要收藏的商品条码。</p>
+		<p>2、给商品拍张照。咔嚓！就收藏好啦！</p>
+		<p>3、点击商品条码选中它，点右下角<span class="abhb-ca-cs"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></span>购买。</p>
+	</div>
+	        <div class="abhb-ca-cb" style="position: fixed;bottom: 100px;right: 20px;"><span class="glyphicon glyphicon-heart" aria-hidden="true" id="scanQRCode1"></span></div>
+</div>
+	#end
+<script type="text/javascript">
+    var org=window.location.href;
+    var tmp_url=Config.root+"/favorites/list";
+    if (org!=tmp_url)
+        window.location.href=tmp_url;
+    var isdebug=false;
+    function alt(o){
+        if (isdebug)
+            alert(o);
+    }
+    $(function() {
+        wx.config(#(configJson));
+    });
+	//
+	var codesarr=[];
+	var createcodesarr=[];
+	var openid="#(memmernum)";
+    function putcodes(code){
+        if (codesarr[code]&&codesarr[code]==1) {
+            codesarr[code]=0;
+            alt("去掉：--"+code);
+            $('#if_'+code).removeClass('yes');
+        }else{
+            codesarr[code]=1;
+            alt("添加：--"+code);
+            $('#if_'+code).addClass('yes');
+        }
+	}
+	function createqrcode() {
+        for (var i in codesarr) {
+            if (codesarr[i] == 1) {
+                createcodesarr.push(i);//i就是下标
+            }
+        }
+//        var compressstr=LZString.compress(openid+"*"+createcodesarr.join("*"));
+        var compressstr=openid+"*"+createcodesarr.join("*");
+        if (createcodesarr.length>0){
+//            var hr=window.location.href;
+//            window.location.href=hr+"?r="+Math.random();
+            var size= createcodesarr.length;
+            clearCss();
+            window.open(Config.root+"/favorites/createOrder?size="+
+                size+"&codes=@"+compressstr,"_top");
+        }
+        else alert("请选择要购买的服装信息");
+    }
+    function clearCss() {
+        for (var i in createcodesarr){
+            alt(createcodesarr[i]);
+            $('#if_'+createcodesarr[i]).removeClass('yes');
+        }
+        codesarr=[];
+        createcodesarr=[];
+    }
+//    function unique(arr) {
+//        var result = [], hash = {};
+//        for (var i = 0, elem; (elem = arr[i]) != null; i++) {
+//            if (!hash[elem]) {
+//                result.push(elem);
+//                hash[elem] = true;
+//            }
+//        }
+//        return result;
+//    }
+    var imgList = [
+    #for(x : list)
+        {
+        imgSrc: '#(x.pic)',
+        barCode: '#(x.barcode)',
+        createTime: '#(x.picdateStr)'
+    },
+    #end
+		];
+    var curImgNum = 0;
+
+    function createWaterfall() {
+        if(imgList.length <= curImgNum) return;
+        var h1 = $('#fav_wf1').get(0).offsetHeight;
+        var h2 = $('#fav_wf2').get(0).offsetHeight;
+        if(h1 <= h2) {
+            $('#fav_wf1').append(genImgFlowDiv(imgList[curImgNum]));
+        } else {
+            $('#fav_wf2').append(genImgFlowDiv(imgList[curImgNum]));
+        }
+        curImgNum++;
+    }
+
+    function genImgFlowDiv(data) {
+        var aimg = $('<img src="' + data.imgSrc + '" />').on('load',function(){
+            createWaterfall();
+        }).on('error',function () {
+            createWaterfall();
+            });
+
+        return $('<div id="if_'+data.barCode+'" class="abhb-ca-imgflow"></div>').append(aimg).append('<div class="text-muted" onclick="putcodes(\''+data.barCode+'\')"><small><span class="glyphicon glyphicon-barcode" aria-hidden="true"></span> </small> ' + data.barCode + '<br><small><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> ' + data.createTime + '</small></div>');
+    }
+
+    $(function() {
+        createWaterfall();
+    });
+    var chooseimg=function (tempNum) {
+        wx.chooseImage({
+            count: 1, // 默认9
+            sourceType: ['camera'],
+            success: function (res) {
+                var localId = res.localIds;
+                $.post(Config.root+"/favorites/saveOrUpdate",
+                    {
+                        localId:localId.join(","),
+                        code:tempNum
+                    },
+                    function(result){
+                        var hr=window.location.href;
+                        window.location.href=hr+"?r="+Math.random();
+                        window.location.href=hr;
+//                        document.execCommand('Refresh');
+                    });
+            }
+        });
+    }
+    $("#scanQRCode").click(function() {
+        wx.scanQRCode({
+            // 默认为0，扫描结果由微信处理，1则直接返回扫描结果
+            needResult : 1,
+            desc : '请扫描标签条码',
+            success : function(res) {
+                var url = res.resultStr;
+                //商品条形码，取","后面的
+                if(url.indexOf(",")>=0){
+                    var tempArray = url.split(',');
+                    var tempNum = tempArray[1];
+                    chooseimg(tempNum);
+
+                }else{
+//                    $("#id_securityCode_input").val(url);
+                }
+            }
+        });
+    });
+    $("#scanQRCode1").click(function() {
+        wx.scanQRCode({
+            needResult : 1,
+            desc : '请扫描标签条码',
+            success : function(res) {
+                var url = res.resultStr;
+                //商品条形码，取","后面的
+                if(url.indexOf(",")>=0){
+                    var tempArray = url.split(',');
+                    var tempNum = tempArray[1];
+                    chooseimg(tempNum);
+                }
+            }
+        });
+    });
+</script>
+    </body>
+</html>

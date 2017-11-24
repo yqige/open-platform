@@ -399,7 +399,7 @@ public abstract class GenerateBase {
      */
     public void createFileByTemplete(String templateFileName, Map<String, Object> paraMap, String filePath) {
         try {
-            Class<?> classes = Class.forName("com.demo.wxapi.utils.code.GenerateBase");
+            Class<?> classes = Class.forName("com.app.wxapi.utils.code.GenerateBase");
 
             InputStream controllerInputStream = classes.getResourceAsStream("template/" + templateFileName);
             int count = 0;

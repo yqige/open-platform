@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+		<title>订单信息</title>
+		<link rel="stylesheet" href="../css/weui.min.css" />
+		<link rel="stylesheet" href="../css/bootstrap.min.css" />
+		<link rel="stylesheet" href="../css/casher.css" />
+		<script src="../js/jquery-3.2.1.min.js"></script>
+		<script src="../js/jquery.qrcode.min.js"></script>
+	</head>
+
+	<body>
+		<div class="abhb-ca-mcard text-center" style="margin-bottom: 0;">
+			&yen; <span style="font-size: 32px;">#(order.actual_amt??)</span><br />
+			<small><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>  #(order.name)</small>
+		</div>
+		<div class="page__bd" style="margin-top: 62px;">
+			<p class="text-center text-info">订单号：#(order.order_no)</p>
+			<p style="text-align: center;margin-top: 25px;"><div id="code" align="center"></div></p>
+		</div>
+
+		<div class="page__ft" style="position: absolute;bottom: 0;left: 0;right: 0;">
+			<div class="weui-footer">
+				<p class="weui-footer__text">Powered By 安保泓宝</p>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+        var codes ="#(order.order_no)";
+        $('#code').qrcode(codes);
+	</script>
+</html>

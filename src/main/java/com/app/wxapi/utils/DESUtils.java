@@ -1,4 +1,4 @@
-package com.demo.wxapi.utils;
+package com.app.wxapi.utils;
 
 import com.jfinal.weixin.sdk.utils.Base64Utils;
 

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+		<title>购买记录</title>
+        #include("/include/static.html")
+        <!-- body 最后 -->
+        <script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
+	</head>
+
+	<body>
+    <div class="weui-loadmore">
+        <i class="weui-loading"></i>
+        <span class="weui-loadmore__tips">正在加载#(CTX)</span>
+    </div>
+    #set(y=0)
+		<div class="page loadmore js_show">
+			<div class="weui-cells" id="list">
+				#for(x : page.list)
+				<a id="os_#(x.id)" class="weui-cell weui-cell_access" href="/wx-brand/favorites/getOrderInfo?id=#(x.id)" style="padding-top: 15px;padding-bottom: 15px;">
+					<div class="weui-cell__bd">
+						<p><small><span class="glyphicon glyphicon-map-marker text-info" aria-hidden="true"></span></small> #(x.name)</p>
+						<p style="color:#777;"><small><span class="glyphicon glyphicon-time text-info" aria-hidden="true"></span> #date(x.create_time)</small></p>
+					</div>
+					<div class="weui-cell__ft" style="color:#333;">&yen;#num(x.actual_amt,x.order_type)</div>
+				</a>
+                #if(for.last)
+                #set(y=x.id)
+                #end
+				#end
+			</div>
+            #if(page.list.size()==0)
+            <div class="page__bd">
+                <div class="weui-loadmore weui-loadmore_line">
+                    <span class="weui-loadmore__tips">暂无数据</span>
+                </div>
+            </div>
+            #end
+		</div>
+
+        <script type="text/javascript">
+            var currentPage=#(page.pageNumber);
+            var total=#(page.totalPage);
+            var loading = false;  //状态标记
+            $(document.body).infinite().on("infinite", function() {
+                if(loading) return;
+                loading = true;
+                if(currentPage<total)
+                $.post(Config.root+"/favorites/getOrdersJson",
+                    {
+                        page:currentPage+1,
+                        size:10
+                    },
+                    function(result){
+                        var list=result.list;
+                        currentPage=result.pageNumber;
+                        list.forEach(function(i){
+                            var actual_amt=(i.actual_amt).toFixed(2);
+                            var ahtml="<a id=\'os_" +i.id+
+                                "\' class=\'weui-cell weui-cell_access\' href=\'/wx-brand/favorites/getOrderInfo?id=" +i.id+
+                                "\' style=\'padding-top: 15px;padding-bottom: 15px;\'><div class=\'weui-cell__bd\'><p><small><span class=\'glyphicon glyphicon-map-marker text-info\' aria-hidden=\'true\'></span></small>" + i.name+
+                                "</p><p style=\'color:#777;\'><small><span class=\'glyphicon glyphicon-time text-info\' aria-hidden=\'true\'></span> " +i.create_time+
+                                "</small></p></div><div class=\'weui-cell__ft\' style=\'color:#333;\'>&yen;" +actual_amt+
+                                "</div></a>";
+                            $("#list").append(ahtml);
+                            loading = false;
+                        });
+                    });
+            });
+        </script>
+
+	</body>
+
+</html>

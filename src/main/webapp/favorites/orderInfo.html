@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>订单信息</title>
+    <link rel="stylesheet" href="../css/weui.min.css" />
+    <link rel="stylesheet" href="../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../css/casher.css" />
+    <script src="../js/jquery-3.2.1.min.js"></script>
+</head>
+
+<body>
+
+<div class="page js_show">
+    <div class="abhb-ca-mcard text-center" style="margin-bottom: 0;">
+        &yen; <span style="font-size: 32px;">#num(order.actual_amt,order.order_type)</span><br />
+        <small><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> #(order.name)</small>
+    </div>
+    <div class="weui-form-preview">
+        <div class="weui-form-preview__bd" style="font-size: 14px;">
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">订单号</label>
+                <a href="/wx-brand/favorites/getOrderQrcode?id=#(order.id)" class="weui-form-preview__value" style="color: #333;">#(order.order_no) <span class="glyphicon glyphicon-qrcode text-info" aria-hidden="true"></span></a>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">交易状态</label>
+                <span class="weui-form-preview__value" style="color: #333;">
+							#if(order.order_status??==40)
+							已完成
+							#elseif(order.order_status??==30)
+							已下单
+							#elseif(order.order_status??==20)
+							已作废
+                            #elseif(order.order_status??==50)
+							已退款
+							#else
+							草稿
+							#end
+						</span>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">交易时间</label>
+                <span class="weui-form-preview__value" style="color: #333;">#(order.create_time)</span>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">会员积分</label>
+                <span class="weui-form-preview__value" style="color: #333;">#num(order.member_points??0.00)</span>
+            </div>
+        </div>
+    </div>
+    <div class="weui-cells__title">
+        #if(order.order_type==2)
+        退款信息
+        #else
+        付款信息
+        #end
+    </div>
+    <div class="weui-form-preview">
+        <div class="weui-form-preview__bd" style="font-size: 14px;line-height:1">
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label" style="font-weight:normal;color: #333;">
+                    #if(order.order_type==2)
+                    退款渠道
+                    #else
+                    付款渠道
+                    #end
+                </label>
+                <span class="weui-form-preview__value" style="color: #333;">
+                            #if(order.order_type==2)
+                            退款金额
+                            #else
+                            付款金额
+                            #end
+                        </span>
+            </div>
+        </div>
+    </div>
+    ###付款信息循环
+    <div class="weui-form-preview">
+        <div class="weui-form-preview__bd" style="font-size: 14px;">
+            #for(x : order.payInfo)
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label" style="font-weight:normal;color: #333;">
+                    #(toStrValue(x.payment_type??""))
+                </label>
+                <span class="weui-form-preview__value" style="color: #333;">&yen;#num(x.payment_amt??0.00)</span>
+            </div>
+            #end
+        </div>
+    </div>
+
+    <div class="weui-cells__title">商品信息</div>
+    #for(x : order.list)
+    <div class="weui-form-preview">
+        <div class="weui-form-preview__bd" style="font-size: 14px;">
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label" style="font-weight:normal;color: #333;">#(x.brand)</label>
+                <span class="weui-form-preview__value" style="color: #333;">单价：&yen;#(x.goods_price)</span>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label" style="font-weight:normal;color: #333;">#(x.bar_code)</label>
+                <span class="weui-form-preview__value" style="color: #333;">#(x.goods_qty)件</span>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label" style="font-weight:normal;color: #333;">#(x.goods_name) #(x.color) #(x.size)</label>
+                <span class="weui-form-preview__value" style="color: #333;">
+                        #if(x.goods_discount==null||x.goods_discount==0)无折扣
+                        #else &yen;#num(x.goods_discount??)
+                        #end
+                    </span>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label" style="color: #333;"></label>
+                <span class="weui-form-preview__value" style="color: #333;">折实金额：&yen;#(x.goods_actual_amt)</span>
+            </div>
+        </div>
+    </div>
+    #end
+</div>
+</body>
+
+</html>

@@ -3,7 +3,7 @@ package com.weixin.face;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.demo.wxapi.utils.WeiXinUtils;
+import com.app.wxapi.utils.WeiXinUtils;
 
 import java.io.BufferedReader;
 import java.io.InputStream;

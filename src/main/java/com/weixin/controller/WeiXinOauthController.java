@@ -2,7 +2,7 @@ package com.weixin.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.demo.wxapi.utils.WeiXinUtils;
+import com.app.wxapi.utils.WeiXinUtils;
 import com.jfinal.kit.JsonKit;
 import com.jfinal.kit.PropKit;
 import com.jfinal.log.Log;

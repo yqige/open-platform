@@ -1,6 +1,6 @@
 package com.weixin.controller;
 
-import com.demo.wxapi.utils.WeiXinUtils;
+import com.app.wxapi.utils.WeiXinUtils;
 import com.jfinal.kit.PropKit;
 import com.jfinal.log.Log;
 import com.jfinal.weixin.sdk.api.*;
@@ -21,9 +21,9 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 将此 DemoController 在YourJFinalConfig 中注册路由，
+ * 将此 appController 在YourJFinalConfig 中注册路由，
  * 并设置好weixin开发者中心的 URL 与 token ，使 URL 指向该
- * DemoController 继承自父类 WeixinController 的 index
+ * appController 继承自父类 WeixinController 的 index
  * 方法即可直接运行看效果，在此基础之上修改相关的方法即可进行实际项目开发
  */
 public class WeixinMsgController extends MsgControllerAdapter {

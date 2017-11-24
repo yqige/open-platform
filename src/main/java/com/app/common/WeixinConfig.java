@@ -1,7 +1,6 @@
 package com.app.common;
 
 import com.app.wxapi.config.plugin.ControllerPlugin;
-import com.app.wxapi.controller.WxMsgController;
 import com.app.wxapi.directive.NumDirective;
 import com.app.wxapi.handle.GlobalHandle;
 import com.app.wxapi.interceptor.MenuInterceptor;
@@ -9,6 +8,7 @@ import com.app.wxapi.model._MappingKit;
 import com.app.wxapi.service.MemberService;
 import com.app.wxapi.utils.PayTypeUtils;
 import com.app.wxapi.utils.WeiXinUtils;
+import com.app.wxapi.utils.threadPool.ThreadPoolPlugin;
 import com.jfinal.config.*;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.PropKit;
@@ -58,11 +58,23 @@ public class WeixinConfig extends JFinalConfig {
     public static DruidPlugin createDruidPlugin() {
         return new DruidPlugin(PropKit.get("jdbcUrl"), PropKit.get("user"), PropKit.get("password").trim());
     }
-
+    public static DruidPlugin createDruidPlugin_() {
+        return new DruidPlugin(PropKit.get("jdbcUrl_"), PropKit.get("user_"), PropKit.get("password_").trim());
+    }
     /**
      * 配置插件
      */
     public void configPlugin(Plugins me) {
+        //平台
+        DruidPlugin druidPlugin_ = createDruidPlugin_();
+        druidPlugin_.setFilters("wall");
+        me.add(druidPlugin_);
+        // 配置ActiveRecord插件
+        ActiveRecordPlugin arp_ = new ActiveRecordPlugin("platform",druidPlugin_);
+        arp_.setShowSql(true);
+        arp_.setDevMode(PropKit.getBoolean("devMode"));
+        me.add(arp_);
+
         // 配置C3p0数据库连接池插件
         DruidPlugin druidPlugin = createDruidPlugin();
         druidPlugin.setFilters("wall");
@@ -80,6 +92,8 @@ public class WeixinConfig extends JFinalConfig {
 
         logger.info("结束加载数据库配置，开始EhCache加载");
         me.add(new EhCachePlugin());
+        //线程池
+        me.add(new ThreadPoolPlugin());
     }
 
     /**

@@ -6,7 +6,7 @@
 
 package com.jfinal.weixin.sdk.msg;
 
-import com.demo.wxapi.utils.StringUtils;
+import com.app.wxapi.utils.StringUtils;
 import com.jfinal.kit.LogKit;
 import com.jfinal.kit.StrKit;
 import com.jfinal.log.Log;

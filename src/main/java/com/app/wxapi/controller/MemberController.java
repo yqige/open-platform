@@ -1,10 +1,10 @@
-package com.demo.wxapi.controller;
+package com.app.wxapi.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.demo.wxapi.service.MemberService;
-import com.demo.wxapi.utils.DateUtil;
-import com.demo.wxapi.utils.MethodName;
-import com.demo.wxapi.utils.WeiXinUtils;
+import com.app.wxapi.service.MemberService;
+import com.app.wxapi.utils.DateUtil;
+import com.app.wxapi.utils.MethodName;
+import com.app.wxapi.utils.WeiXinUtils;
 import com.jfinal.kit.PropKit;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Db;

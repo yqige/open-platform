@@ -3,6 +3,7 @@ package com.app.index;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.app.wxapi.service.MemberService;
+import com.app.wxapi.service.PlatformService;
 import com.app.wxapi.utils.MethodName;
 import com.app.wxapi.utils.StringUtils;
 import com.app.wxapi.utils.WeiXinUtils;
@@ -27,23 +28,21 @@ import com.platform.annotation.Controller;
 public class IndexController extends ApiController {
     static Log logger = Log.getLog("log_wx");
     static MemberService memberService = Enhancer.enhance(MemberService.class);
-
+    PlatformService service = enhance(PlatformService.class);
     /**
      * 个人首页
      */
     @MethodName(name = "个人首页")
     @Before({IndexValidator.class})
     public void index() {
-        String openId = getSessionAttr("openId");
+        String openId = service.handleOpenid(this,"/app/index");
         logger.info("获取到的openid:--->" + openId);
         if (StringUtils.isNotBlank(openId)) {
             Record r = memberService.find(openId);
             if (r == null) throw new RuntimeException("1/0");
             logger.info(openId);
-            ApiResult apiResult = UserApi.getUserInfo(openId);
-            JSONObject jsonObject = JSON.parseObject(apiResult.getJson());
-            setAttr("nickName", jsonObject.getString("nickname"));
-            setAttr("headimgurl", jsonObject.getString("headimgurl"));
+            setAttr("nickName", getAttrForStr("nickName"));
+            setAttr("headimgurl", getAttrForStr("headimgurl"));
             setAttr("memmbertype", r.getStr("card_name"));
             setAttr("money", r.getBigDecimal("money"));
             setAttr("memmernum", r.getStr("memmernum"));
@@ -55,9 +54,10 @@ public class IndexController extends ApiController {
 
     @Override
     public ApiConfig getApiConfig() {
-        logger.info("获取公众号信息");
-        logger.info("appId:-----"+getSessionAttr("appId"));
-        return WeiXinUtils.getApiConfig(getSessionAttr("appId"));
+//        logger.info("获取公众号信息");
+//        logger.info("appId:-----"+getSessionAttr("appId"));
+//        return WeiXinUtils.getApiConfig(getSessionAttr("appId"));
+        return new ApiConfig();
     }
 }
 

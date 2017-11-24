@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+		<title>我的收藏</title>
+		<link rel="stylesheet" href="../css/weui.min.css" />
+		<link rel="stylesheet" href="../css/bootstrap.min.css" />
+		<link rel="stylesheet" href="../css/casher.css" />
+		<script src="../js/zepto.min.js"></script>
+		<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+		<script src="https://res.wx.qq.com/open/libs/weuijs/1.0.0/weui.min.js"></script>
+	</head>
+
+	<body>
+
+	<div class="page js_show">
+		<div style="width: 50%;padding:8px 4px 8px 8px;float: left;">
+				#for(x : list)
+				<div class="abhb-ca-imgflow">
+					<img src="#(x.pic)" />
+					<div class="text-muted"><small><span class="glyphicon glyphicon-barcode" aria-hidden="true"></span> </small>#(x.barcode)<br><small><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>#(x.picdateStr)</small></div>
+				</div>
+				#end
+			</div>
+			<div style="width: 50%;padding:8px 8px 8px 4px;float: left;">
+					#for(x : list1)
+					<div class="abhb-ca-imgflow">
+						<img src="#(x.pic)" />
+						<div class="text-muted"><small><span class="glyphicon glyphicon-barcode" aria-hidden="true"></span> </small>#(x.barcode)<br><small><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>#(x.picdateStr)</small></div>
+					</div>
+					#end
+			</div>
+		</div>
+			<div class="abhb-ca-cb" style="position: fixed;bottom: 100px;right: 20px;"><span class="glyphicon glyphicon-heart" aria-hidden="true" id="scanQRCode"></span></div>
+			<a href="createOrder.html" class="abhb-ca-cb" style="position: fixed;bottom: 30px;right: 20px;"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></a>
+	<script type="text/javascript">
+        $(function() {
+            wx.config(#(configJson));
+        });
+	</script>
+	</body>
+<script type="text/javascript">
+    var images = {
+        localId: [],
+        serverId: []
+    };
+
+    var chooseimg=function (tempNum) {
+        wx.chooseImage({
+            success: function (res) {
+                var localId = res.localIds;
+                $.post("http://08c8a941.ngrok.io/favorites/saveOrUpdate",
+                    {
+                        localId:localId.join(","),
+                        code:tempNum
+                    },
+                    function(res){
+                        if (res.status == 200) {
+                        }else{
+                        }
+                    });
+            }
+        });
+    }
+    $("#scanQRCode").click(function() {
+        wx.scanQRCode({
+            // 默认为0，扫描结果由微信处理，1则直接返回扫描结果
+            needResult : 1,
+            desc : '请扫描标签条码',
+            success : function(res) {
+                var url = res.resultStr;
+                //商品条形码，取","后面的
+                if(url.indexOf(",")>=0){
+                    var tempArray = url.split(',');
+                    var tempNum = tempArray[1];
+                    chooseimg(tempNum);
+
+                }else{
+//                    $("#id_securityCode_input").val(url);
+                }
+            }
+        });
+    });
+
+</script>
+</html>

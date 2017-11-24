@@ -23,7 +23,8 @@ public class SnsAccessTokenApi {
     private static String url = "https://api.weixin.qq.com/sns/oauth2/access_token?grant_type=authorization_code";
     private static String authorize_uri = "https://open.weixin.qq.com/connect/oauth2/authorize";
     private static String qrconnect_url = "https://open.weixin.qq.com/connect/qrconnect";
-
+    private static String url_plat = "https://api.weixin.qq.com/sns/oauth2/component/access_token?appid=APPID&code=CODE&grant_type=authorization_code&component_appid=COMPONENT_APPID&component_access_token=COMPONENT_ACCESS_TOKEN";
+    private static String authorize_uri_plat = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE&component_appid=COMPONENT_APPID#wechat_redirect";
     /**
      * 生成Authorize链接
      *
@@ -111,14 +112,37 @@ public class SnsAccessTokenApi {
      */
     public static SnsAccessToken getSnsAccessToken(String appId, String secret, String code) {
         final Map<String, String> queryParas = ParaMap.create("appid", appId).put("secret", secret).put("code", code).getData();
+        return RetryUtils.retryOnException(3, ()->new SnsAccessToken(HttpUtils.get(url, queryParas)));
+    }
 
-        return RetryUtils.retryOnException(3, new Callable<SnsAccessToken>() {
+    /**
+     * 通过code获取access_token
+     * @param appId
+     * @param code
+     * @param appID
+     * @param componentAccessToken
+     * @return
+     */
+    public static SnsAccessToken getSnsAccessToken(String appId, String code, String appID, String componentAccessToken) {
+        return RetryUtils.retryOnException(3, ()->new SnsAccessToken(HttpUtils.get(url_plat.replaceAll("APPID",appId)
+                .replaceAll("CODE",code).replaceAll("COMPONENT_APPID",appID)
+                .replaceAll("COMPONENT_ACCESS_TOKEN",componentAccessToken))));
+    }
 
-            @Override
-            public SnsAccessToken call() throws Exception {
-                String json = HttpUtils.get(url, queryParas);
-                return new SnsAccessToken(json);
-            }
-        });
+    /**
+     * 生成Authorize链接
+     * @param appId
+     * @param snsapiBase
+     * @param appID
+     * @param url
+     * @return
+     */
+    public static String getAuthorizeURL(String appId, boolean snsapiBase, String appID, String url) {
+        if (snsapiBase) {
+            authorize_uri_plat = authorize_uri_plat.replaceAll("SCOPE", "snsapi_base");
+        } else {
+            authorize_uri_plat = authorize_uri_plat.replaceAll("SCOPE", "snsapi_userinfo");
+        }
+        return authorize_uri_plat.replaceAll("APPID",appId).replaceAll("COMPONENT_APPID",appID).replaceAll("REDIRECT_URI",url);
     }
 }

@@ -6,7 +6,7 @@
 
 package com.jfinal.weixin.sdk.api;
 
-import com.demo.wxapi.utils.MethodName;
+import com.app.wxapi.utils.MethodName;
 import com.jfinal.kit.LogKit;
 import com.jfinal.weixin.sdk.utils.HttpUtils;
 

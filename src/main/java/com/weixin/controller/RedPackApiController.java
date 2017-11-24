@@ -1,11 +1,11 @@
 package com.weixin.controller;
 
-import com.demo.wxapi.utils.ReadPackUtils;
+import com.app.wxapi.utils.ReadPackUtils;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.PropKit;
 
 /**
- * 微信红包demo
+ * 微信红包app
  *
  * @author Javen
  * 2016年5月28日

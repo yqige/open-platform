@@ -2,7 +2,6 @@ package com.app.wxapi.controller;
 
 import com.app.wxapi.utils.DateUtil;
 import com.app.wxapi.utils.WeiXinUtils;
-import com.jfinal.kit.PropKit;
 import com.jfinal.kit.StrKit;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Db;

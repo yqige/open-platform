@@ -1,4 +1,4 @@
-package com.demo.wxapi.utils;
+package com.app.wxapi.utils;
 
 import java.io.Serializable;
 import java.text.ParseException;

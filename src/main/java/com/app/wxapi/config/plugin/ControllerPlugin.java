@@ -72,8 +72,12 @@ public class ControllerPlugin implements IPlugin {
             Method[] mts = controller.getMethods();
             for (Method method:mts){
                 Exclude at = method.getAnnotation(Exclude.class);
-                if (at!=null)
-                excludeList.add(key+"/"+method.getName());
+                if (at!=null){
+                    if(!key.equals("/"))
+                    excludeList.add(key+"/"+method.getName());
+                    else excludeList.add("/");
+                    log.info("过滤路径："+key+"/"+method.getName());
+                }
             }
         }
         return true;

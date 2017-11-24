@@ -6,7 +6,7 @@
 
 package com.jfinal.weixin.sdk.api;
 
-import com.demo.wxapi.entity.ConfigJson;
+import com.app.wxapi.entity.ConfigJson;
 import com.jfinal.log.Log;
 import com.jfinal.weixin.sdk.cache.IAccessTokenCache;
 import com.jfinal.weixin.sdk.kit.ParaMap;

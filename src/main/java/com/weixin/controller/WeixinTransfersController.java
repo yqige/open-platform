@@ -12,7 +12,7 @@ import java.util.Map;
 
 /**
  * @author osc就看看
- * 企业付款demo
+ * 企业付款app
  */
 public class WeixinTransfersController extends Controller {
     //微信证书路径

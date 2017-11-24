@@ -1,4 +1,4 @@
-package com.demo.wxapi.utils;
+package com.app.wxapi.utils;
 
 import com.jfinal.kit.HttpKit;
 import com.jfinal.kit.Prop;

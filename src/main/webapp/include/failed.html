@@ -13,16 +13,13 @@
             <div class="weui-msg">
                 <div class="weui-msg__icon-area"><i class="weui-icon-info weui-icon_msg"></i></div>
                 <div class="weui-msg__text-area">
-                    <h2 class="weui-msg__title">目标URL：#(redirectUrl)</h2>
-                    <p class="weui-msg__desc">错误信息：#(message)</p>
+                    <h2 class="weui-msg__title">系统繁忙,请稍后再试</h2>
+                    <!--<p class="weui-msg__desc">错误信息：#(message)</p>-->
                 </div>
-                <div class="weui-msg__extra-area">
-                    <div class="weui-footer">
-                        <p class="weui-footer__links">
-                            <a href="javascript:void(0);" class="weui-footer__link"></a>
-                        </p>
-                        <p class="weui-footer__text">Copyright © 上海葳霖电子商务有限公司</p>
-                    </div>
+                <div class="weui-msg__opr-area">
+                    <p class="weui-btn-area">
+                        <a href="javascript:WeixinJSBridge.call('closeWindow');" class="weui-btn weui-btn_primary">退出</a>
+                    </p>
                 </div>
             </div>
         </div>

@@ -1,4 +1,4 @@
-package com.demo.wxapi.model;
+package com.app.wxapi.model;
 
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.weixin.model.Order;

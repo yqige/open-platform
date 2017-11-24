@@ -1,10 +1,10 @@
-package com.demo.wxapi.controller;
+package com.app.wxapi.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.demo.wxapi.entity.Menu;
-import com.demo.wxapi.utils.*;
-import com.demo.wxapi.validator.WxapiValidator;
+import com.app.wxapi.entity.Menu;
+import com.app.wxapi.utils.*;
+import com.app.wxapi.validator.WxapiValidator;
 import com.jfinal.aop.Before;
 import com.jfinal.aop.Clear;
 import com.jfinal.kit.Kv;

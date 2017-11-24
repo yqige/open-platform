@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>消息页</title>
+    #include("/include/static.html")
+</head>
+<body>
+<div class="container" id="container">
+    <div class="page home js_show">
+        <div class="page msg_success js_show">
+            <div class="weui-msg">
+                <div class="weui-msg__icon-area"><i class="weui-icon-info weui-icon_msg"></i></div>
+                <div class="weui-msg__text-area">
+                    <h2 class="weui-msg__title">友情提示</h2>
+                    #if(error)
+                    <p class="weui-msg__desc">
+                        该手机号已被使用，请到附近片断门店，由营业员输入手机号进行资料更新
+                    </p>
+                        #else
+                    <p class="weui-msg__desc" style="text-align: left;text-indent:2em;">
+                        您的会员信息已经被更新，<span style="color: #ff1b10;">请联系您的会员卡开卡门店，重新进行会员的吸纳。</span>
+                    </p>
+                    <p class="weui-msg__desc" style="color: #ff1b10;text-align: left;text-indent:2em;">
+                        您现有的会员储值、会员积分都不受影响，请您放心！
+                    </p>
+                    #end
+                </div>
+                <div class="weui-msg__extra-area">
+                    <div class="weui-footer">
+                        <p class="weui-footer__links">
+                            <a href="javascript:void(0);" class="weui-footer__link"></a>
+                        </p>
+                        <p class="weui-footer__text">Copyright © 上海葳霖电子商务有限公司</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

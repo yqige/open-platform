@@ -1,4 +1,4 @@
-package com.demo.wxapi.utils;
+package com.app.wxapi.utils;
 
 import org.apache.commons.httpclient.*;
 import org.apache.commons.httpclient.methods.GetMethod;

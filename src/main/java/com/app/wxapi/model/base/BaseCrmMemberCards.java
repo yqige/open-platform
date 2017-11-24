@@ -1,4 +1,4 @@
-package com.demo.wxapi.model.base;
+package com.app.wxapi.model.base;
 
 import com.jfinal.plugin.activerecord.IBean;
 import com.jfinal.plugin.activerecord.Model;
